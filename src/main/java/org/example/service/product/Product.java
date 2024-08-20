@@ -1,17 +1,29 @@
 package org.example.service.product;
 
-public abstract class Product {
-
-      String productName;
-      ProductType productType;
+public class Product {
+       String productName;
+       ProductType productType;
+       double originalPrice;
+       double finalPrice;
 
       public Product(){}
-      public Product(String productName, ProductType productType) {
+      public Product(String productName, ProductType productType, double originalPrice) {
         this.productName = productName;
         this.productType = productType;
+        this.originalPrice = originalPrice;
     }
 
-    public abstract double getPrice();
+    public double getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
 
     public ProductType getProductType(){
         return productType;

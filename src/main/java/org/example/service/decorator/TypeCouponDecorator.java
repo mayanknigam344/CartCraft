@@ -2,32 +2,30 @@ package org.example.service.decorator;
 
 import org.example.service.product.Product;
 import org.example.service.product.ProductType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeCouponDecorator extends CouponDecorator{
-    Product product;
-    int discountPercentage;
-    ProductType productType;
-
+@Component
+public class TypeCouponDecorator implements CouponDecorator{
+    private static final Logger log = LoggerFactory.getLogger(TypeCouponDecorator.class);
     static List<ProductType> typeList = new ArrayList<>();
     static{
         typeList.add(ProductType.ELECTRONICS);
     }
 
-    public TypeCouponDecorator(Product product, int discountPercentage,ProductType productType) {
-        this.product = product;
-        this.discountPercentage = discountPercentage;
-        this.productType = productType;
-    }
-
     @Override
-    public double getPrice() {
-        double price = product.getPrice();
-        if(typeList.contains(productType)){
-            return price - (price*discountPercentage)/100;
+    public Product process(Product product) {
+        double orgPrice = product.getOriginalPrice();
+        if(typeList.contains(product.getProductType())){
+            double discountedPrice = orgPrice - (orgPrice*10)/100;
+            log.info("Price After type discount {}",discountedPrice);
+            product.setFinalPrice(discountedPrice);
+            return product;
         }
-        return price;
+        return product;
     }
 }
