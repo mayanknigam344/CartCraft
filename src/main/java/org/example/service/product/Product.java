@@ -6,16 +6,16 @@ import lombok.Setter;
 public class Product {
        String productName;
        @Getter
-       ProductType productType;
+       Category category;
        @Getter
        double originalPrice;
        @Setter
        double finalPrice;
 
       public Product(){}
-      public Product(String productName, ProductType productType, double originalPrice) {
+      public Product(String productName, Category category, double originalPrice) {
         this.productName = productName;
-        this.productType = productType;
+        this.category = category;
         this.originalPrice = originalPrice;
     }
 }

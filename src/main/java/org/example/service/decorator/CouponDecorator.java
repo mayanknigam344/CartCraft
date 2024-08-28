@@ -1,7 +1,8 @@
 package org.example.service.decorator;
 
-import org.example.service.product.Product;
+import org.example.request.ShoppingCartRequest;
+import org.example.response.ShoppingCartResponse;
 
 public interface CouponDecorator {
-    void process(Product product);
+    ShoppingCartResponse process(ShoppingCartRequest shoppingCartRequest);
 }

@@ -1,6 +1,6 @@
 package org.example.service.product;
 
-public enum ProductType {
+public enum Category {
     ELECTRONICS,
     FASHION
 }
