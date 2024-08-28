@@ -10,9 +10,8 @@ import java.util.List;
 @Component
 public class ShoppingCart {
 
-    private final List<CouponDecorator> couponDecoratorList;
-
-    private List<Product> finalProductList = new ArrayList<>();
+      private final List<CouponDecorator> couponDecoratorList;
+      private List<Product> finalProductList = new ArrayList<>();
 
     public ShoppingCart(List<CouponDecorator> couponDecoratorList) {
         this.couponDecoratorList = couponDecoratorList;

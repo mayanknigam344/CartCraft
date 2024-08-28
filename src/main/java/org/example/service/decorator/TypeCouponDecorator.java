@@ -18,14 +18,12 @@ public class TypeCouponDecorator implements CouponDecorator{
     }
 
     @Override
-    public Product process(Product product) {
+    public void process(Product product) {
         double orgPrice = product.getOriginalPrice();
         if(typeList.contains(product.getProductType())){
             double discountedPrice = orgPrice - (orgPrice*10)/100;
             log.info("Price After type discount {}",discountedPrice);
             product.setFinalPrice(discountedPrice);
-            return product;
         }
-        return product;
     }
 }

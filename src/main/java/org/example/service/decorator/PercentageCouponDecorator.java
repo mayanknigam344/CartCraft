@@ -10,11 +10,10 @@ public class PercentageCouponDecorator implements CouponDecorator{
     private static final Logger log = LoggerFactory.getLogger(PercentageCouponDecorator.class);
 
     @Override
-    public Product process(Product product) {
+    public void process(Product product) {
         double orgPrice = product.getOriginalPrice();
         double discountedPrice = orgPrice - (orgPrice*10)/100;
         log.info("Price After percentage discount {}", discountedPrice);
         product.setFinalPrice(discountedPrice);
-        return product;
     }
 }
