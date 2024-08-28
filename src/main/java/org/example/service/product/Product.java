@@ -1,9 +1,15 @@
 package org.example.service.product;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Product {
        String productName;
+       @Getter
        ProductType productType;
+       @Getter
        double originalPrice;
+       @Setter
        double finalPrice;
 
       public Product(){}
@@ -11,21 +17,5 @@ public class Product {
         this.productName = productName;
         this.productType = productType;
         this.originalPrice = originalPrice;
-    }
-
-    public double getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setFinalPrice(double finalPrice) {
-        this.finalPrice = finalPrice;
-    }
-
-    public ProductType getProductType(){
-        return productType;
     }
 }
