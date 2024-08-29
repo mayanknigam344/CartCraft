@@ -7,6 +7,7 @@ import org.example.service.product.Category;
 import org.example.service.product.Product;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,9 @@ public class ShoppingController {
     private ShoppingCartRequest buildShoppingCartRequest(){
         ShoppingCartRequest shoppingCartRequest = new ShoppingCartRequest();
         Product product = new Product("ABC", Category.ELECTRONICS,1000);
-        shoppingCartRequest.setProductList(List.of(product));
+        HashMap<Product,Integer> productVsItsCount = new HashMap<>();
+        productVsItsCount.put(product,1);
+        shoppingCartRequest.setProductListAndItsQuantity(List.of(productVsItsCount));
         return shoppingCartRequest;
     }
 }

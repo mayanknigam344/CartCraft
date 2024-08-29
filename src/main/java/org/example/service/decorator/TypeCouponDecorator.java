@@ -7,7 +7,9 @@ import org.example.service.product.Product;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class TypeCouponDecorator implements CouponDecorator{
@@ -19,19 +21,25 @@ public class TypeCouponDecorator implements CouponDecorator{
     @Override
     public ShoppingCartResponse process(ShoppingCartRequest shoppingCartRequest) {
         ShoppingCartResponse shoppingCartResponse = new ShoppingCartResponse();
-        var products = shoppingCartRequest.getProductList();
-        for(var product : products){
-            if(typeList.contains(product.getCategory())) {
-                productAfterDiscountedPrice(product);
+
+        var productListAndItsQuantity = shoppingCartRequest.getProductListAndItsQuantity();
+
+        for(HashMap<Product,Integer> productIntegerHashMap : productListAndItsQuantity){
+            for(Map.Entry<Product,Integer> productIntegerEntry : productIntegerHashMap.entrySet()){
+                var product = productIntegerEntry.getKey();
+                var quantity = productIntegerEntry.getValue();
+                if(typeList.contains(product.getCategory())){
+                    productAfterDiscountedPrice(product,quantity);
+                }
             }
-            shoppingCartResponse.getProductList().add(product);
+            shoppingCartResponse.getProductListAndItsQuantity().add(productIntegerHashMap);
         }
         return shoppingCartResponse;
     }
 
-    private void productAfterDiscountedPrice(Product product) {
+    private void productAfterDiscountedPrice(Product product, int quantity) {
         var originalPrice = product.getOriginalPrice();
         var finalPrice = originalPrice - (originalPrice*20)/100;
-        product.setFinalPrice(finalPrice);
+        product.setFinalPrice(quantity * finalPrice);
     }
 }
