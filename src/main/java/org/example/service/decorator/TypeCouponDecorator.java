@@ -6,10 +6,7 @@ import org.example.service.product.Category;
 import org.example.service.product.Product;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class TypeCouponDecorator implements CouponDecorator{
@@ -29,17 +26,30 @@ public class TypeCouponDecorator implements CouponDecorator{
                 var product = productIntegerEntry.getKey();
                 var quantity = productIntegerEntry.getValue();
                 if(typeList.contains(product.getCategory())){
-                    productAfterDiscountedPrice(product,quantity);
+                    productAfterDiscountedPrice(product);
                 }
             }
-            shoppingCartResponse.getProductListAndItsQuantity().add(productIntegerHashMap);
+            Optional.ofNullable(shoppingCartResponse)
+                    .map(ShoppingCartResponse::getProductListAndItsQuantity)
+                    .orElseGet(() -> {
+                        List<HashMap<Product, Integer>> newList = new ArrayList<>();
+                        shoppingCartResponse.setProductListAndItsQuantity(newList);
+                        return newList;
+                    })
+                    .add(productIntegerHashMap);
+
         }
         return shoppingCartResponse;
     }
 
-    private void productAfterDiscountedPrice(Product product, int quantity) {
-        var originalPrice = product.getOriginalPrice();
-        var finalPrice = originalPrice - (originalPrice*20)/100;
-        product.setFinalPrice(quantity * finalPrice);
+    private void productAfterDiscountedPrice(Product product) {
+        double actualPrice;
+        if(product.getFinalPrice()!=0) {
+            actualPrice = product.getFinalPrice();
+        }else{
+            actualPrice = product.getOriginalPrice();
+        }
+        var price = actualPrice - (actualPrice*20)/100;
+        product.setFinalPrice(price);
     }
 }

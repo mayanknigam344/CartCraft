@@ -10,6 +10,7 @@ public class Product {
        @Getter
        double originalPrice;
        @Setter
+       @Getter
        double finalPrice;
 
       public Product(){}

@@ -1,16 +1,18 @@
 package org.example.service.cart;
 
-import lombok.RequiredArgsConstructor;
 import org.example.request.ShoppingCartRequest;
 import org.example.response.ShoppingCartResponse;
 import org.example.service.decorator.CouponDecorator;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
 
     List<CouponDecorator> couponDecoratorList;
+
+    public ShoppingCartServiceServiceImpl(List<CouponDecorator> couponDecoratorList) {
+        this.couponDecoratorList = couponDecoratorList;
+    }
 
     @Override
     public ShoppingCartResponse addToCart(ShoppingCartRequest request) {
