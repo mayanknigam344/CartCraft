@@ -20,10 +20,10 @@ public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
          couponDecoratorList
                 .forEach(couponDecorator -> {
                     var response = couponDecorator.process(request);
-                    var productsList = response.getProductListAndItsQuantity();
-                    request.setProductListAndItsQuantity(productsList);
+                    var productsList = response.getCartProductLists();
+                    request.setCartProductLists(productsList);
                 });
-         shoppingCartResponse.setProductListAndItsQuantity(request.getProductListAndItsQuantity());
+         shoppingCartResponse.setCartProductLists(request.getCartProductLists());
         return shoppingCartResponse;
     }
 }

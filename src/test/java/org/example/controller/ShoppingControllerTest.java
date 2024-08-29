@@ -3,8 +3,8 @@ package org.example.controller;
 
 import org.example.service.cart.ShoppingCartService;
 import org.example.service.cart.ShoppingCartServiceServiceImpl;
-import org.example.service.decorator.PercentageCouponDecorator;
-import org.example.service.decorator.TypeCouponDecorator;
+import org.example.service.decorator.PercentageCouponDecoratorImpl;
+import org.example.service.decorator.TypeCouponDecoratorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,16 +17,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @ExtendWith(MockitoExtension.class)
 class ShoppingControllerTest {
 
-    private PercentageCouponDecorator percentageCouponDecorator;
-    private TypeCouponDecorator typeCouponDecorator;
+    private PercentageCouponDecoratorImpl percentageCouponDecoratorImpl;
+    private TypeCouponDecoratorImpl typeCouponDecoratorImpl;
     private ShoppingCartService shoppingCartService;
     private ShoppingController shoppingController;
 
     @BeforeEach
     void setUp() {
-         percentageCouponDecorator = new PercentageCouponDecorator();
-         typeCouponDecorator = new TypeCouponDecorator();
-         shoppingCartService = new ShoppingCartServiceServiceImpl(List.of(percentageCouponDecorator,typeCouponDecorator));
+         percentageCouponDecoratorImpl = new PercentageCouponDecoratorImpl();
+         typeCouponDecoratorImpl = new TypeCouponDecoratorImpl();
+         shoppingCartService = new ShoppingCartServiceServiceImpl(List.of(percentageCouponDecoratorImpl, typeCouponDecoratorImpl));
          shoppingController = new ShoppingController(shoppingCartService);
     }
 

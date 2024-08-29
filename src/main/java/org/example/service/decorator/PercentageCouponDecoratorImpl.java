@@ -2,34 +2,35 @@ package org.example.service.decorator;
 
 import org.example.request.ShoppingCartRequest;
 import org.example.response.ShoppingCartResponse;
+import org.example.service.product.CartProduct;
 import org.example.service.product.Product;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
-public class PercentageCouponDecorator implements CouponDecorator{
+public class PercentageCouponDecoratorImpl implements CouponDecorator{
 
     @Override
     public ShoppingCartResponse process(ShoppingCartRequest shoppingCartRequest) {
         ShoppingCartResponse shoppingCartResponse = new ShoppingCartResponse();
 
-        var productListAndItsQuantity = shoppingCartRequest.getProductListAndItsQuantity();
+        var cartProductLists = shoppingCartRequest.getCartProductLists();
 
-        for(HashMap<Product, Integer> productIntegerHashMap : productListAndItsQuantity) {
-            for (Map.Entry<Product, Integer> productIntegerEntry : productIntegerHashMap.entrySet()) {
-                var product = productIntegerEntry.getKey();
+        for(HashMap<Integer, CartProduct> cartProductHashMap : cartProductLists) {
+            for (Map.Entry<Integer, CartProduct> productIntegerEntry : cartProductHashMap.entrySet()) {
+                var product = productIntegerEntry.getValue().getProduct();
                 productAfterDiscountedPrice(product);
             }
 
-            Optional.ofNullable(shoppingCartResponse)
-                    .map(ShoppingCartResponse::getProductListAndItsQuantity)
+            Optional.of(shoppingCartResponse)
+                    .map(ShoppingCartResponse::getCartProductLists)
                     .orElseGet(() -> {
-                        List<HashMap<Product, Integer>> newList = new ArrayList<>();
-                        shoppingCartResponse.setProductListAndItsQuantity(newList);
+                        List<HashMap<Integer, CartProduct>> newList = new ArrayList<>();
+                        shoppingCartResponse.setCartProductLists(newList);
                         return newList;
                     })
-                    .add(productIntegerHashMap);
+                    .add(cartProductHashMap);
 
         }
         return shoppingCartResponse;

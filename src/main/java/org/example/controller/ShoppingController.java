@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.request.ShoppingCartRequest;
 import org.example.response.ShoppingCartResponse;
 import org.example.service.cart.ShoppingCartService;
+import org.example.service.product.CartProduct;
 import org.example.service.product.Category;
 import org.example.service.product.Product;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +22,9 @@ public class ShoppingController {
     public ShoppingCartResponse showCart(){
         var response = shoppingCartService.addToCart(buildShoppingCartRequest());
         double totalPrice = 0.0;
-        for(HashMap<Product,Integer> productIntegerHashMap : response.getProductListAndItsQuantity()){
-            for(Map.Entry<Product,Integer> productIntegerEntry : productIntegerHashMap.entrySet()){
-                 totalPrice+= productIntegerEntry.getKey().getFinalPrice() * productIntegerEntry.getValue();
+        for(HashMap<Integer, CartProduct> productIntegerHashMap : response.getCartProductLists()){
+            for(Map.Entry<Integer,CartProduct> productIntegerEntry : productIntegerHashMap.entrySet()){
+                 totalPrice+= productIntegerEntry.getValue().getProduct().getFinalPrice() * productIntegerEntry.getValue().getQuantity();
             }
         }
         response.setTotalFinalPrice(totalPrice);
@@ -32,10 +33,11 @@ public class ShoppingController {
 
     private ShoppingCartRequest buildShoppingCartRequest(){
         ShoppingCartRequest shoppingCartRequest = new ShoppingCartRequest();
-        Product product = new Product("ABC", Category.ELECTRONICS,1000);
-        HashMap<Product,Integer> productVsItsCount = new HashMap<>();
-        productVsItsCount.put(product,2);
-        shoppingCartRequest.setProductListAndItsQuantity(List.of(productVsItsCount));
+        var product = Product.builder().id(1).productName("ABC").category(Category.ELECTRONICS).originalPrice(1000).build();
+        var cartProduct = CartProduct.builder().product(product).quantity(2).build();
+        HashMap<Integer,CartProduct> productVsItsCount = new HashMap<>();
+        productVsItsCount.put(1,cartProduct);
+        shoppingCartRequest.setCartProductLists(List.of(productVsItsCount));
         return shoppingCartRequest;
     }
 }

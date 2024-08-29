@@ -1,19 +1,19 @@
 package org.example.service.product;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Product {
+       int id;
        String productName;
-       @Getter
        Category category;
-       @Getter
        double originalPrice;
-       @Setter
-       @Getter
        double finalPrice;
 
-      public Product(){}
       public Product(String productName, Category category, double originalPrice) {
         this.productName = productName;
         this.category = category;

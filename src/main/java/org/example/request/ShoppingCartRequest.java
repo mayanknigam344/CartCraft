@@ -2,7 +2,7 @@ package org.example.request;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.service.product.Product;
+import org.example.service.product.CartProduct;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 public class ShoppingCartRequest {
 
-    // Product and its number of items count
-    List<HashMap<Product, Integer>> productListAndItsQuantity;
+    // Product Id vs Product and its quantity
+    List<HashMap<Integer, CartProduct>> cartProductLists;
 }
