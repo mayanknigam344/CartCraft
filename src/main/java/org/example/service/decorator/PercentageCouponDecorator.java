@@ -19,7 +19,6 @@ public class PercentageCouponDecorator implements CouponDecorator{
         for(HashMap<Product, Integer> productIntegerHashMap : productListAndItsQuantity) {
             for (Map.Entry<Product, Integer> productIntegerEntry : productIntegerHashMap.entrySet()) {
                 var product = productIntegerEntry.getKey();
-                var quantity = productIntegerEntry.getValue();
                 productAfterDiscountedPrice(product);
             }
 
