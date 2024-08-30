@@ -36,7 +36,7 @@ class ShoppingControllerTest {
         var result = shoppingController.showCart();
 
         // then
-        assertThat(result.getTotalFinalPrice()).isNotNull().isEqualTo(1440.0);
+        assertThat(result.getTotalFinalPrice()).isNotNull().isEqualTo(2340.0);
 
     }
 }

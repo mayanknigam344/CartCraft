@@ -23,8 +23,9 @@ public class ShoppingController {
         var response = shoppingCartService.addToCart(buildShoppingCartRequest());
         double totalPrice = 0.0;
         for(HashMap<Integer, CartProduct> productIntegerHashMap : response.getCartProductLists()){
-            for(Map.Entry<Integer,CartProduct> productIntegerEntry : productIntegerHashMap.entrySet()){
-                 totalPrice+= productIntegerEntry.getValue().getProduct().getFinalPrice() * productIntegerEntry.getValue().getQuantity();
+            for(Map.Entry<Integer,CartProduct> productIntegerEntry : productIntegerHashMap.entrySet()) {
+                totalPrice += productIntegerEntry.getValue().getProduct().getFinalPrice() * productIntegerEntry.getValue().getQuantity();
+                System.out.println(" Product " + productIntegerEntry.getKey() + " total price " + totalPrice);
             }
         }
         response.setTotalFinalPrice(totalPrice);
@@ -33,10 +34,13 @@ public class ShoppingController {
 
     private ShoppingCartRequest buildShoppingCartRequest(){
         ShoppingCartRequest shoppingCartRequest = new ShoppingCartRequest();
-        var product = Product.builder().id(1).productName("ABC").category(Category.ELECTRONICS).originalPrice(1000).build();
-        var cartProduct = CartProduct.builder().product(product).quantity(2).build();
+        var product1 = Product.builder().id(1).productName("ABC").category(Category.ELECTRONICS).originalPrice(1000).build();
+        var product2 = Product.builder().id(2).productName("SDC").category(Category.FASHION).originalPrice(1000).build();
+        var cartProduct1 = CartProduct.builder().product(product1).quantity(2).build();
+        var cartProduct2 = CartProduct.builder().product(product2).quantity(1).build();
         HashMap<Integer,CartProduct> cartProductHashMap = new HashMap<>();
-        cartProductHashMap.put(1,cartProduct);
+        cartProductHashMap.put(1,cartProduct1);
+        cartProductHashMap.put(2,cartProduct2);
         shoppingCartRequest.setCartProductLists(List.of(cartProductHashMap));
         return shoppingCartRequest;
     }
