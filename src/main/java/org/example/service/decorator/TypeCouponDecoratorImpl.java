@@ -3,8 +3,8 @@ package org.example.service.decorator;
 import org.example.response.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Category;
-import org.example.service.product.Product;
-import org.example.support.ProductAmountProcessingResult;
+import org.example.support.ProductProcessingResult;
+import org.example.util.ProductPaymentUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -17,17 +17,17 @@ public class TypeCouponDecoratorImpl implements CouponDecorator{
     }
 
     @Override
-    public ShoppingCartResponse process(ProductAmountProcessingResult productAmountProcessingResult) {
-        ShoppingCartResponse shoppingCartResponse = new ShoppingCartResponse();
+    public ShoppingCartResponse process(ProductProcessingResult productProcessingResult) {
+        ShoppingCartResponse shoppingCartResponse = ShoppingCartResponse.builder().build();
 
-        var cartProductLists = productAmountProcessingResult.getCartProductsList();
+        var cartProductLists = productProcessingResult.getCartProductsList();
 
         for(HashMap<Integer, CartProduct> cartProductHashMap : cartProductLists){
             for(Map.Entry<Integer,CartProduct> productIntegerEntry : cartProductHashMap.entrySet()){
                 var product = productIntegerEntry.getValue().getProduct();
 
                 if(typeList.contains(product.getCategory())){
-                    productAfterDiscountedPrice(product);
+                    ProductPaymentUtil.productAfterDiscountedPrice(product, 20.0);
                 }
             }
             Optional.of(shoppingCartResponse)
@@ -41,16 +41,5 @@ public class TypeCouponDecoratorImpl implements CouponDecorator{
 
         }
         return shoppingCartResponse;
-    }
-
-    private void productAfterDiscountedPrice(Product product) {
-        double actualPrice;
-        if(product.getFinalPrice()!=0) {
-            actualPrice = product.getFinalPrice();
-        }else{
-            actualPrice = product.getOriginalPrice();
-        }
-        var price = actualPrice - (actualPrice*20)/100;
-        product.setFinalPrice(price);
     }
 }

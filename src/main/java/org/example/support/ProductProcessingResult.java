@@ -9,6 +9,6 @@ import java.util.List;
 
 @Builder
 @Value
-public class ProductAmountProcessingResult {
+public class ProductProcessingResult {
      List<HashMap<Integer, CartProduct>> cartProductsList;
 }

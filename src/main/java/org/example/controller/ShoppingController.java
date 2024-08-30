@@ -35,9 +35,9 @@ public class ShoppingController {
         ShoppingCartRequest shoppingCartRequest = new ShoppingCartRequest();
         var product = Product.builder().id(1).productName("ABC").category(Category.ELECTRONICS).originalPrice(1000).build();
         var cartProduct = CartProduct.builder().product(product).quantity(2).build();
-        HashMap<Integer,CartProduct> productVsItsCount = new HashMap<>();
-        productVsItsCount.put(1,cartProduct);
-        shoppingCartRequest.setCartProductLists(List.of(productVsItsCount));
+        HashMap<Integer,CartProduct> cartProductHashMap = new HashMap<>();
+        cartProductHashMap.put(1,cartProduct);
+        shoppingCartRequest.setCartProductLists(List.of(cartProductHashMap));
         return shoppingCartRequest;
     }
 }

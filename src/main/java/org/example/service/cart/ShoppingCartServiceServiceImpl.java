@@ -3,7 +3,7 @@ package org.example.service.cart;
 import org.example.request.ShoppingCartRequest;
 import org.example.response.ShoppingCartResponse;
 import org.example.service.decorator.CouponDecorator;
-import org.example.support.ProductAmountProcessingResult;
+import org.example.support.ProductProcessingResult;
 
 import java.util.List;
 
@@ -17,18 +17,19 @@ public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponse addToCart(ShoppingCartRequest request) {
-        ShoppingCartResponse shoppingCartResponse = new ShoppingCartResponse();
+        ShoppingCartResponse.ShoppingCartResponseBuilder shoppingCartResponseBuilder = ShoppingCartResponse.builder();
         var cartProducts = request.getCartProductLists();
 
-        ProductAmountProcessingResult productAmountProcessingResult =
-                ProductAmountProcessingResult.builder().cartProductsList(cartProducts).build();
+        ProductProcessingResult productProcessingResult =
+                ProductProcessingResult.builder().cartProductsList(cartProducts).build();
 
         for(CouponDecorator couponDecorator : couponDecoratorList) {
-            var response = couponDecorator.process(productAmountProcessingResult);
-            productAmountProcessingResult = ProductAmountProcessingResult.builder().cartProductsList(response.getCartProductLists()).build();
+            var response = couponDecorator.process(productProcessingResult);
+            productProcessingResult = ProductProcessingResult.builder().cartProductsList(response.getCartProductLists()).build();
         }
 
-        shoppingCartResponse.setCartProductLists(productAmountProcessingResult.getCartProductsList());
-        return shoppingCartResponse;
+        shoppingCartResponseBuilder.cartProductLists(productProcessingResult.getCartProductsList());
+
+        return shoppingCartResponseBuilder.build();
     }
 }
