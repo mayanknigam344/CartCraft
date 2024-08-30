@@ -28,7 +28,7 @@ public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
             productAmountProcessingResult = ProductAmountProcessingResult.builder().cartProductsList(response.getCartProductLists()).build();
         }
 
-        shoppingCartResponse.setCartProductLists(request.getCartProductLists());
+        shoppingCartResponse.setCartProductLists(productAmountProcessingResult.getCartProductsList());
         return shoppingCartResponse;
     }
 }
