@@ -1,10 +1,10 @@
 package org.example.service.decorator;
 
-import org.example.request.ShoppingCartRequest;
 import org.example.response.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Category;
 import org.example.service.product.Product;
+import org.example.support.ProductAmountProcessingResult;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -17,10 +17,10 @@ public class TypeCouponDecoratorImpl implements CouponDecorator{
     }
 
     @Override
-    public ShoppingCartResponse process(ShoppingCartRequest shoppingCartRequest) {
+    public ShoppingCartResponse process(ProductAmountProcessingResult productAmountProcessingResult) {
         ShoppingCartResponse shoppingCartResponse = new ShoppingCartResponse();
 
-        var cartProductLists = shoppingCartRequest.getCartProductLists();
+        var cartProductLists = productAmountProcessingResult.getCartProductsList();
 
         for(HashMap<Integer, CartProduct> cartProductHashMap : cartProductLists){
             for(Map.Entry<Integer,CartProduct> productIntegerEntry : cartProductHashMap.entrySet()){
