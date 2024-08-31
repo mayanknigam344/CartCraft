@@ -1,27 +1,37 @@
 package org.example.service.cart;
 
-import lombok.RequiredArgsConstructor;
 import org.example.request.ShoppingCartRequest;
 import org.example.response.ShoppingCartResponse;
 import org.example.service.decorator.CouponDecorator;
+import org.example.support.ProductProcessingResult;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@Service
 public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
 
     List<CouponDecorator> couponDecoratorList;
 
+    public ShoppingCartServiceServiceImpl(List<CouponDecorator> couponDecoratorList) {
+        this.couponDecoratorList = couponDecoratorList;
+    }
+
     @Override
     public ShoppingCartResponse addToCart(ShoppingCartRequest request) {
-        ShoppingCartResponse shoppingCartResponse = new ShoppingCartResponse();
-         couponDecoratorList
-                .forEach(couponDecorator -> {
-                    var response = couponDecorator.process(request);
-                    var productsList = response.getProductListAndItsQuantity();
-                    request.setProductListAndItsQuantity(productsList);
-                });
-         shoppingCartResponse.setProductListAndItsQuantity(request.getProductListAndItsQuantity());
-        return shoppingCartResponse;
+        ShoppingCartResponse.ShoppingCartResponseBuilder shoppingCartResponseBuilder = ShoppingCartResponse.builder();
+        var cartProducts = request.getCartProductLists();
+
+        ProductProcessingResult productProcessingResult =
+                ProductProcessingResult.builder().cartProductsList(cartProducts).build();
+
+        for(CouponDecorator couponDecorator : couponDecoratorList) {
+            var response = couponDecorator.process(productProcessingResult);
+            productProcessingResult = ProductProcessingResult.builder().cartProductsList(response.getCartProductLists()).build();
+        }
+
+        shoppingCartResponseBuilder.cartProductLists(productProcessingResult.getCartProductsList());
+
+        return shoppingCartResponseBuilder.build();
     }
 }
