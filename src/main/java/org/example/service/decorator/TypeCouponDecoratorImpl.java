@@ -24,11 +24,15 @@ public class TypeCouponDecoratorImpl implements CouponDecorator{
 
         for(HashMap<Integer, CartProduct> cartProductHashMap : cartProductLists){
             for(Map.Entry<Integer,CartProduct> productIntegerEntry : cartProductHashMap.entrySet()){
-                var product = productIntegerEntry.getValue().getProduct();
+                var productId = productIntegerEntry.getKey();
+                var cartProduct = productIntegerEntry.getValue();
+                var product = cartProduct.getProduct();
 
                 if(typeList.contains(product.getCategory())){
-                    ProductPaymentUtil.productAfterDiscountedPrice(product, 20.0);
+                    product = ProductPaymentUtil.productAfterDiscountedPrice(product, 20.0);
                 }
+                cartProduct = cartProduct.toBuilder().product(product).build();
+                cartProductHashMap.put(productId, cartProduct);
             }
             Optional.of(shoppingCartResponse)
                     .map(ShoppingCartResponse::getCartProductLists)

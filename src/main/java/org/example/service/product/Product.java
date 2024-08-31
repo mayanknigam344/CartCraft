@@ -2,11 +2,10 @@ package org.example.service.product;
 
 import lombok.*;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
+@Getter
 public class Product {
        int id;
        String productName;
