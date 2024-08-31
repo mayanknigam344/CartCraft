@@ -52,7 +52,7 @@ class ShoppingControllerTest {
         HashMap<Integer,CartProduct> cartProductHashMap = new HashMap<>();
         cartProductHashMap.put(1,cartProduct1);
         cartProductHashMap.put(2,cartProduct2);
-        shoppingCartRequest.setCartProductLists(List.of(cartProductHashMap));
+        shoppingCartRequest.setCartProductLists(cartProductHashMap);
         return shoppingCartRequest;
     }
 }

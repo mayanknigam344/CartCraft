@@ -17,26 +17,18 @@ public class PercentageCouponDecoratorImpl implements CouponDecorator{
 
         var cartProductLists = productProcessingResult.getCartProductsList();
 
-        for(HashMap<Integer, CartProduct> cartProductHashMap : cartProductLists) {
-            for (Map.Entry<Integer, CartProduct> productIntegerEntry : cartProductHashMap.entrySet()) {
-                var productId = productIntegerEntry.getKey();
-                var cartProduct = productIntegerEntry.getValue();
-                var product = cartProduct.getProduct();
-                var productAfterDiscount = ProductPaymentUtil.productAfterDiscountedPrice(product , 10.0);
-                cartProduct = cartProduct.toBuilder().product(productAfterDiscount).build();
-                cartProductHashMap.put(productId, cartProduct);
-            }
+        HashMap<Integer,CartProduct> hashMap = new HashMap<>();
 
-            Optional.of(shoppingCartResponse)
-                    .map(ShoppingCartResponse::getCartProductLists)
-                    .orElseGet(() -> {
-                        List<HashMap<Integer, CartProduct>> newList = new ArrayList<>();
-                        shoppingCartResponse.setCartProductLists(newList);
-                        return newList;
-                    })
-                    .add(cartProductHashMap);
-
+        for(Map.Entry<Integer, CartProduct> cartProductHashMap : cartProductLists.entrySet()) {
+            var productId = cartProductHashMap.getKey();
+            var cartProduct = cartProductHashMap.getValue();
+            var product = cartProduct.getProduct();
+            var productAfterDiscount = ProductPaymentUtil.productAfterDiscountedPrice(product , 10.0);
+            cartProduct = cartProduct.toBuilder().product(productAfterDiscount).build();
+            hashMap.put(productId, cartProduct);
         }
+        shoppingCartResponse = shoppingCartResponse.toBuilder().cartProductLists(hashMap).build();
+
         return shoppingCartResponse;
     }
 }

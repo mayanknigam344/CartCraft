@@ -7,7 +7,10 @@ import org.example.support.ProductProcessingResult;
 import org.example.util.ProductPaymentUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class TypeCouponDecoratorImpl implements CouponDecorator{
@@ -21,29 +24,20 @@ public class TypeCouponDecoratorImpl implements CouponDecorator{
         ShoppingCartResponse shoppingCartResponse = ShoppingCartResponse.builder().build();
 
         var cartProductLists = productProcessingResult.getCartProductsList();
+        HashMap<Integer,CartProduct> hashMap = new HashMap<>();
 
-        for(HashMap<Integer, CartProduct> cartProductHashMap : cartProductLists){
-            for(Map.Entry<Integer,CartProduct> productIntegerEntry : cartProductHashMap.entrySet()){
-                var productId = productIntegerEntry.getKey();
-                var cartProduct = productIntegerEntry.getValue();
+        for(Map.Entry<Integer, CartProduct> cartProductHashMap : cartProductLists.entrySet()){
+                var productId = cartProductHashMap.getKey();
+                var cartProduct = cartProductHashMap.getValue();
                 var product = cartProduct.getProduct();
 
                 if(typeList.contains(product.getCategory())){
                     product = ProductPaymentUtil.productAfterDiscountedPrice(product, 20.0);
                 }
                 cartProduct = cartProduct.toBuilder().product(product).build();
-                cartProductHashMap.put(productId, cartProduct);
+               hashMap.put(productId, cartProduct);
             }
-            Optional.of(shoppingCartResponse)
-                    .map(ShoppingCartResponse::getCartProductLists)
-                    .orElseGet(() -> {
-                        List<HashMap<Integer, CartProduct>> newList = new ArrayList<>();
-                        shoppingCartResponse.setCartProductLists(newList);
-                        return newList;
-                    })
-                    .add(cartProductHashMap);
-
-        }
+        shoppingCartResponse = shoppingCartResponse.toBuilder().cartProductLists(hashMap).build();
         return shoppingCartResponse;
     }
 }

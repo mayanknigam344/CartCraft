@@ -5,14 +5,13 @@ import org.example.response.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Product;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
 public class ProductPaymentUtil {
 
     public Product productAfterDiscountedPrice(Product product, double discountPercentage) {
-        double actualPrice;
+        double actualPrice = 0.0;
         if(product.getFinalPrice()!=0) {
             actualPrice = product.getFinalPrice();
         }else{
@@ -23,12 +22,12 @@ public class ProductPaymentUtil {
     }
 
     public double calculate(ShoppingCartResponse shoppingCartResponse) {
+        double finalPrice = 0.0;
         double totalPrice = 0.0;
-        for(HashMap<Integer, CartProduct> productIntegerHashMap : shoppingCartResponse.getCartProductLists()){
-            for(Map.Entry<Integer,CartProduct> productIntegerEntry : productIntegerHashMap.entrySet()) {
-                totalPrice += productIntegerEntry.getValue().getProduct().getFinalPrice() * productIntegerEntry.getValue().getQuantity();
-                System.out.println(" Product " + productIntegerEntry.getKey() + " total price " + totalPrice);
-            }
+        for(Map.Entry<Integer, CartProduct> productIntegerHashMap : shoppingCartResponse.getCartProductLists().entrySet()){
+            finalPrice = productIntegerHashMap.getValue().getProduct().getFinalPrice() * productIntegerHashMap.getValue().getQuantity();
+            totalPrice+= productIntegerHashMap.getValue().getProduct().getFinalPrice() * productIntegerHashMap.getValue().getQuantity();
+            System.out.println(" Product " + productIntegerHashMap.getKey() + " total price " + finalPrice);
         }
         return totalPrice;
     }

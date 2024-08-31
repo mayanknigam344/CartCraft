@@ -16,7 +16,7 @@ public class ShoppingController {
     public ShoppingCartResponse showCart(ShoppingCartRequest shoppingCartRequest){
         var response = shoppingCartService.addToCart(shoppingCartRequest);
         var totalPrice = ProductPaymentUtil.calculate(response);
-        response.setTotalFinalPrice(totalPrice);
+        response = response.toBuilder().totalFinalPrice(totalPrice).build();
         return response;
     }
 }

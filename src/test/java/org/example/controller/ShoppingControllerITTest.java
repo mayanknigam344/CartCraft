@@ -58,7 +58,7 @@ class ShoppingControllerITTest {
         var cartProduct = CartProduct.builder().product(product).quantity(2).build();
         HashMap<Integer,CartProduct> cartProductHashMap = new HashMap<>();
         cartProductHashMap.put(1,cartProduct);
-        shoppingCartRequest.setCartProductLists(List.of(cartProductHashMap));
+        shoppingCartRequest.setCartProductLists(cartProductHashMap);
         return shoppingCartRequest;
     }
 }
