@@ -1,6 +1,6 @@
 package org.example.service.decorator;
 
-import org.example.response.ShoppingCartResponse;
+import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Category;
 import org.example.support.ProductProcessingResult;

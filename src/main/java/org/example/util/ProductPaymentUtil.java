@@ -1,7 +1,7 @@
 package org.example.util;
 
 import lombok.experimental.UtilityClass;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Product;
 

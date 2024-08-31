@@ -1,8 +1,8 @@
 package org.example.service.payment;
 
 import lombok.RequiredArgsConstructor;
-import org.example.service.payment.dto.PaymentResult;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.PaymentResult;
+import org.example.model.dto.ShoppingCartResponse;
 import org.springframework.stereotype.Service;
 
 @Service

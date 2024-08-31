@@ -1,8 +1,8 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.request.ShoppingCartRequest;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.dto.ShoppingCartRequest;
+import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.cart.ShoppingCartService;
 import org.example.util.ProductPaymentUtil;
 import org.springframework.web.bind.annotation.RestController;

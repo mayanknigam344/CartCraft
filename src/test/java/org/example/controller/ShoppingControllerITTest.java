@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.request.ShoppingCartRequest;
+import org.example.model.dto.ShoppingCartRequest;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Category;
 import org.example.service.product.Product;
@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

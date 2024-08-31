@@ -1,7 +1,7 @@
 package org.example.service.cart;
 
-import org.example.request.ShoppingCartRequest;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.dto.ShoppingCartRequest;
+import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.decorator.CouponDecorator;
 import org.example.support.ProductProcessingResult;
 import org.springframework.stereotype.Service;

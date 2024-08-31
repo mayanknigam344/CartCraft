@@ -1,9 +1,9 @@
 package org.example.service.payment.internal;
 
 import lombok.RequiredArgsConstructor;
-import org.example.service.payment.dto.PaymentResult;
+import org.example.model.PaymentResult;
 import org.example.service.payment.internal.strategy.PaymentStrategy;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.dto.ShoppingCartResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

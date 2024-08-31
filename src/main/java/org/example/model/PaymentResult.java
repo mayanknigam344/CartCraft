@@ -1,9 +1,9 @@
-package org.example.service.payment.dto;
+package org.example.model;
 
 import lombok.Builder;
 import lombok.Value;
 import org.assertj.core.error.future.Warning;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.dto.ShoppingCartResponse;
 
 import java.util.List;
 

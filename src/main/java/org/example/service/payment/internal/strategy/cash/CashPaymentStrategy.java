@@ -1,8 +1,8 @@
 package org.example.service.payment.internal.strategy.cash;
 
-import org.example.service.payment.dto.PaymentResult;
+import org.example.model.PaymentResult;
 import org.example.service.payment.internal.strategy.PaymentStrategy;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.dto.ShoppingCartResponse;
 
 public class CashPaymentStrategy implements PaymentStrategy {
     @Override

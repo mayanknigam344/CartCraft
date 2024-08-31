@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.request.ShoppingCartRequest;
+import org.example.model.dto.ShoppingCartRequest;
 import org.example.service.cart.ShoppingCartService;
 import org.example.service.cart.ShoppingCartServiceServiceImpl;
 import org.example.service.decorator.PercentageCouponDecoratorImpl;

@@ -1,7 +1,7 @@
 package org.example.service.payment;
 
-import org.example.service.payment.dto.PaymentResult;
-import org.example.response.ShoppingCartResponse;
+import org.example.model.PaymentResult;
+import org.example.model.dto.ShoppingCartResponse;
 
 public interface PaymentService {
     PaymentResult execute(ShoppingCartResponse shoppingCartResponse);
