@@ -4,9 +4,11 @@ import org.example.request.ShoppingCartRequest;
 import org.example.response.ShoppingCartResponse;
 import org.example.service.decorator.CouponDecorator;
 import org.example.support.ProductProcessingResult;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
 
     List<CouponDecorator> couponDecoratorList;
