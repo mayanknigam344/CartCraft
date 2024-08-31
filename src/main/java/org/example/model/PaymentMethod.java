@@ -1,4 +1,4 @@
-package org.example.service.payment.model;
+package org.example.model;
 
 public enum PaymentMethod {
     PAYMENT_METHOD_CASH,
