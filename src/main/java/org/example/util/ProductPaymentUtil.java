@@ -5,30 +5,35 @@ import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Product;
 
-import java.util.Map;
-
 @UtilityClass
 public class ProductPaymentUtil {
 
-    public Product productAfterDiscountedPrice(Product product, double discountPercentage) {
-        double actualPrice = 0.0;
-        if(product.getFinalPrice()!=0) {
-            actualPrice = product.getFinalPrice();
-        }else{
-            actualPrice = product.getOriginalPrice();
-        }
-        var price = actualPrice - (actualPrice*discountPercentage)/100;
-        return product.toBuilder().finalPrice(price).build();
+    public Product applyDiscountToProduct(Product product, double discountPercentage) {
+        double originalPrice = getProductPrice(product);
+        double discountedPrice = originalPrice - (originalPrice * discountPercentage) / 100;
+
+        return product.toBuilder().finalPrice(discountedPrice).build();
     }
 
-    public double calculate(ShoppingCartResponse shoppingCartResponse) {
-        double finalPrice = 0.0;
+    public double calculateTotalPrice(ShoppingCartResponse shoppingCartResponse) {
         double totalPrice = 0.0;
-        for(Map.Entry<Integer, CartProduct> productIntegerHashMap : shoppingCartResponse.getCartProductLists().entrySet()){
-            finalPrice = productIntegerHashMap.getValue().getProduct().getFinalPrice() * productIntegerHashMap.getValue().getQuantity();
-            totalPrice+= productIntegerHashMap.getValue().getProduct().getFinalPrice() * productIntegerHashMap.getValue().getQuantity();
-            System.out.println(" Product " + productIntegerHashMap.getKey() + " total price " + finalPrice);
+
+        for (var entry : shoppingCartResponse.getCartProductLists().entrySet()) {
+            CartProduct cartProduct = entry.getValue();
+            double productTotalPrice = calculateProductTotalPrice(cartProduct);
+            totalPrice += productTotalPrice;
+
+            System.out.println("Product ID: " + entry.getKey() + " | Total price: " + productTotalPrice);
         }
+
         return totalPrice;
+    }
+
+    private double calculateProductTotalPrice(CartProduct cartProduct) {
+        double finalPrice = getProductPrice(cartProduct.getProduct());
+        return finalPrice * cartProduct.getQuantity();
+    }
+    private double getProductPrice(Product product) {
+        return product.getFinalPrice() != 0 ? product.getFinalPrice() : product.getOriginalPrice();
     }
 }

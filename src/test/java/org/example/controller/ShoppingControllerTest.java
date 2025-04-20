@@ -40,14 +40,14 @@ class ShoppingControllerTest {
         var result = shoppingController.showCart(buildShoppingCartRequest());
 
         // then
-        assertThat(result.getTotalFinalPrice()).isNotNull().isEqualTo(2340.0);
+        assertThat(result.getTotalFinalPrice()).isNotNull().isEqualTo(2440.0);
 
     }
     private ShoppingCartRequest buildShoppingCartRequest(){
         ShoppingCartRequest shoppingCartRequest = new ShoppingCartRequest();
-        var product1 = Product.builder().id(1).productName("ABC").category(Category.ELECTRONICS).originalPrice(1000).build();
+        var product1 = Product.builder().id(1).productName("ABC").category(Category.ELECTRONICS).originalPrice(2000).build();
         var product2 = Product.builder().id(2).productName("SDC").category(Category.FASHION).originalPrice(1000).build();
-        var cartProduct1 = CartProduct.builder().product(product1).quantity(2).build();
+        var cartProduct1 = CartProduct.builder().product(product1).quantity(1).build();
         var cartProduct2 = CartProduct.builder().product(product2).quantity(1).build();
         HashMap<Integer,CartProduct> cartProductHashMap = new HashMap<>();
         cartProductHashMap.put(1,cartProduct1);

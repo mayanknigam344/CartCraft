@@ -1,5 +1,6 @@
 package org.example.service.cart;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.model.dto.ShoppingCartRequest;
 import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.decorator.CouponDecorator;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
 
     List<CouponDecorator> couponDecoratorList;
@@ -24,7 +26,10 @@ public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
         var processingResult = ProductProcessingResult.builder().cartProductsList(initialCartProducts).build();
 
         for(CouponDecorator couponDecorator : couponDecoratorList) {
-            processingResult = couponDecorator.process(processingResult);
+            if(couponDecorator.isApplicable(request)){
+                log.info("CouponDecorator [{}] is applicable and will be applied.", couponDecorator.getClass().getSimpleName());
+                processingResult = couponDecorator.process(processingResult);
+            }
         }
        return ShoppingCartResponse
                .builder()
