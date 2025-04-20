@@ -1,5 +1,5 @@
 
-# 🛒 Online Shopping Management System
+# 🛒 CartCraft – A Smart Shopping Cart System with Dynamic Coupon Processing
 
 This project is a simplified **Online Shopping Management System** implemented in Java using Spring Boot. It provides a backend structure for an e-commerce cart system where:
 
