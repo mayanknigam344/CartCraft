@@ -19,19 +19,16 @@ public class ShoppingCartServiceServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponse addToCart(ShoppingCartRequest request) {
-        ShoppingCartResponse.ShoppingCartResponseBuilder shoppingCartResponseBuilder = ShoppingCartResponse.builder();
-        var cartProducts = request.getCartProductLists();
+        var initialCartProducts = request.getCartProductLists();
 
-        ProductProcessingResult productProcessingResult =
-                ProductProcessingResult.builder().cartProductsList(cartProducts).build();
+        var processingResult = ProductProcessingResult.builder().cartProductsList(initialCartProducts).build();
 
         for(CouponDecorator couponDecorator : couponDecoratorList) {
-            var response = couponDecorator.process(productProcessingResult);
-            productProcessingResult = ProductProcessingResult.builder().cartProductsList(response.getCartProductLists()).build();
+            processingResult = couponDecorator.process(processingResult);
         }
-
-        shoppingCartResponseBuilder.cartProductLists(productProcessingResult.getCartProductsList());
-
-        return shoppingCartResponseBuilder.build();
+       return ShoppingCartResponse
+               .builder()
+               .cartProductLists(processingResult.getCartProductsList())
+               .build();
     }
 }

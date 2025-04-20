@@ -9,5 +9,6 @@ import java.util.HashMap;
 @Builder
 @Value
 public class ProductProcessingResult {
+     // Integer- ProductId
      HashMap<Integer, CartProduct> cartProductsList;
 }

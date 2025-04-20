@@ -1,6 +1,5 @@
 package org.example.service.decorator;
 
-import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.service.product.Category;
 import org.example.support.ProductProcessingResult;
@@ -10,34 +9,30 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class TypeCouponDecoratorImpl implements CouponDecorator{
-    static List<Category> typeList = new ArrayList<>();
+    static List<Category> allowedCategories = new ArrayList<>();
     static{
-        typeList.add(Category.ELECTRONICS);
+        allowedCategories.add(Category.ELECTRONICS);
     }
 
     @Override
-    public ShoppingCartResponse process(ProductProcessingResult productProcessingResult) {
-        ShoppingCartResponse shoppingCartResponse = ShoppingCartResponse.builder().build();
+    public  ProductProcessingResult process(ProductProcessingResult input) {
+        HashMap<Integer,CartProduct> discountedCartItems = new HashMap<>();
 
-        var cartProductLists = productProcessingResult.getCartProductsList();
-        HashMap<Integer,CartProduct> hashMap = new HashMap<>();
-
-        for(Map.Entry<Integer, CartProduct> cartProductHashMap : cartProductLists.entrySet()){
-                var productId = cartProductHashMap.getKey();
-                var cartProduct = cartProductHashMap.getValue();
+        for(var entry: input.getCartProductsList().entrySet()){
+                var productId = entry.getKey();
+                var cartProduct = entry.getValue();
                 var product = cartProduct.getProduct();
-
-                if(typeList.contains(product.getCategory())){
+                if(allowedCategories.contains(product.getCategory())){
                     product = ProductPaymentUtil.productAfterDiscountedPrice(product, 20.0);
                 }
                 cartProduct = cartProduct.toBuilder().product(product).build();
-               hashMap.put(productId, cartProduct);
+               discountedCartItems.put(productId, cartProduct);
             }
-        shoppingCartResponse = shoppingCartResponse.toBuilder().cartProductLists(hashMap).build();
-        return shoppingCartResponse;
+        return ProductProcessingResult.builder()
+                .cartProductsList(discountedCartItems)
+                .build();
     }
 }

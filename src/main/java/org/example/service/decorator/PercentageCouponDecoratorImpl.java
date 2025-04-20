@@ -1,6 +1,5 @@
 package org.example.service.decorator;
 
-import org.example.model.dto.ShoppingCartResponse;
 import org.example.service.product.CartProduct;
 import org.example.support.ProductProcessingResult;
 import org.example.util.ProductPaymentUtil;
@@ -12,23 +11,20 @@ import java.util.*;
 public class PercentageCouponDecoratorImpl implements CouponDecorator{
 
     @Override
-    public ShoppingCartResponse process(ProductProcessingResult productProcessingResult) {
-        ShoppingCartResponse shoppingCartResponse = ShoppingCartResponse.builder().build();
+    public ProductProcessingResult process(ProductProcessingResult input) {
+        HashMap<Integer,CartProduct> discountedCartItems = new HashMap<>();
 
-        var cartProductLists = productProcessingResult.getCartProductsList();
-
-        HashMap<Integer,CartProduct> hashMap = new HashMap<>();
-
-        for(Map.Entry<Integer, CartProduct> cartProductHashMap : cartProductLists.entrySet()) {
-            var productId = cartProductHashMap.getKey();
-            var cartProduct = cartProductHashMap.getValue();
+        for(var entry : input.getCartProductsList().entrySet()) {
+            var productId = entry.getKey();
+            var cartProduct = entry.getValue();
             var product = cartProduct.getProduct();
-            var productAfterDiscount = ProductPaymentUtil.productAfterDiscountedPrice(product , 10.0);
-            cartProduct = cartProduct.toBuilder().product(productAfterDiscount).build();
-            hashMap.put(productId, cartProduct);
+            var discounted = ProductPaymentUtil.productAfterDiscountedPrice(product , 10.0);
+            cartProduct = cartProduct.toBuilder().product(discounted).build();
+            discountedCartItems.put(productId, cartProduct);
         }
-        shoppingCartResponse = shoppingCartResponse.toBuilder().cartProductLists(hashMap).build();
 
-        return shoppingCartResponse;
+        return ProductProcessingResult.builder()
+                .cartProductsList(discountedCartItems)
+                .build();
     }
 }
