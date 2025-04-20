@@ -1,10 +1,10 @@
 
 # 🛒 CartCraft – A Smart Shopping Cart System with Dynamic Coupon Processing
 
-This project is a simplified **Online Shopping Management System** implemented in Java using Spring Boot. It provides a backend structure for an e-commerce cart system where:
+**CartCraft** is a modular, extensible **shopping cart backend** built in Java using Spring Boot. It simulates a real-world e-commerce environment where:
 
 - Products can be added or removed from the cart.
-- Each product can have **multiple coupons** applied.
+- Multiple **coupon decorators** can be applied based on product type, cart value, or custom logic.
 - The system calculates the final price after applying applicable discounts.
 - Implemented with extensible design patterns like the **Decorator Pattern** for coupon logic.
 
@@ -43,10 +43,11 @@ New payment types can be added by implementing PaymentStrategy interface.
 ## 🛍️ Add to Cart Page Behavior
 
 You can dynamically:
-- Add more items to the cart.
-- Delete items from the cart.
-- Apply **multiple coupons per product**, and the system automatically processes them in the configured sequence.
-
+- Add and remove items from the cart.
+- Apply **multiple coupons**, and the system will:
+    - Filter out **non-applicable** ones.
+    - Apply **all applicable coupons** sequentially, based on the provided configuration.
+    - Final price reflects **cumulative discounts** from all valid coupons.
 ---
 
 ## 🔧 Technologies Used
@@ -83,3 +84,5 @@ You can dynamically:
 📬 Feedback or Contributions
 
 Feel free to open an issue or submit a pull request!
+
+👋 *Happy Carting with CartCraft!*
